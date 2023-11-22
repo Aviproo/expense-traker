@@ -1,0 +1,29 @@
+.Login {
+  margin: auto;
+  width: 30%;
+
+  padding: 10px;
+  -webkit-box-shadow: -1px 0px 61px -10px rgba(0, 0, 0, 0.61);
+  -moz-box-shadow: -1px 0px 61px -10px rgba(0, 0, 0, 0.61);
+  box-shadow: -1px 0px 61px -10px rgba(0, 0, 0, 0.61);
+}
+.Login div {
+  margin: 10px;
+}
+.Login button {
+  width: -webkit-fill-available;
+  border-radius: 50px;
+}
+.Login input {
+  border-radius: 50px;
+  background-color: black;
+  color: white;
+}
+.haveAnAccount {
+  margin: auto;
+  width: 30%;
+  padding: 10px;
+  -webkit-box-shadow: -1px 0px 61px -10px rgba(0, 0, 0, 0.61);
+  -moz-box-shadow: -1px 0px 61px -10px rgba(0, 0, 0, 0.61);
+  box-shadow: -1px 0px 61px -10px rgba(0, 0, 0, 0.61);
+}

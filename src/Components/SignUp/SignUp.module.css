@@ -1,4 +1,4 @@
-.auth {
+.signUp {
   margin: auto;
   width: 30%;
 
@@ -7,11 +7,15 @@
   -moz-box-shadow: -1px 0px 61px -10px rgba(0, 0, 0, 0.61);
   box-shadow: -1px 0px 61px -10px rgba(0, 0, 0, 0.61);
 }
-.auth div {
+.signUp div {
   margin: 10px;
 }
-.auth button {
+.signUp button {
   width: -webkit-fill-available;
+  border-radius: 50px;
+}
+.signUp input {
+  border-radius: 50px;
 }
 .haveAnAccount {
   margin: auto;

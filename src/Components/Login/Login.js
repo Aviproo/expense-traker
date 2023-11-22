@@ -1,17 +1,18 @@
 import { useRef } from "react";
+import classes from "./Login.module.css";
 import { Button } from "react-bootstrap";
-import classes from "./Auth.module.css";
-const Auth = () => {
+import { useNavigate } from "react-router-dom";
+const Login = () => {
+  const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const confirmpasswordRef = useRef();
 
-  const signUp = () => {
+  const Login = () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    const confirmPassword = passwordRef.current.value;
+
     let url =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCvzryAZ4dVWRP2PJ-eM4EE78m3NrDF5F0";
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCvzryAZ4dVWRP2PJ-eM4EE78m3NrDF5F0";
     // if (isLogIn) {
     //   url =
     //     "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCvzryAZ4dVWRP2PJ-eM4EE78m3NrDF5F0";
@@ -24,7 +25,6 @@ const Auth = () => {
       body: JSON.stringify({
         email: email,
         password: password,
-        confirmPassword: confirmPassword,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -32,7 +32,8 @@ const Auth = () => {
     }).then((res) => {
       if (res.ok) {
         return res.json().then((data) => {
-          alert("You have succesfully signup");
+          alert("You have succesfully Login");
+          navigate("/welcome");
         });
       } else {
         return res.json().then((data) => {
@@ -44,8 +45,8 @@ const Auth = () => {
 
   return (
     <div>
-      <div className={classes.auth}>
-        SignUp
+      <div className={classes.Login}>
+        Login
         <div>
           <input placeholder="Email" ref={emailRef} />
         </div>
@@ -53,11 +54,9 @@ const Auth = () => {
           <input placeholder="Password" ref={passwordRef} />
         </div>
         <div>
-          <input placeholder="Confirm Password" ref={confirmpasswordRef} />
+          <Button onClick={Login}>Login</Button>
         </div>
-        <div>
-          <Button onClick={signUp}>SignUp</Button>
-        </div>
+        <div>Forgot password</div>
       </div>
       <div className={classes.haveAnAccount}>
         Have an account?
@@ -66,4 +65,4 @@ const Auth = () => {
     </div>
   );
 };
-export default Auth;
+export default Login;
