@@ -27,12 +27,18 @@ const Welcome = () => {
       }
     });
   };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
   return (
     <div>
       <div className={classes.header}>
         <div>Welcome to Expense Tracker!!!</div>
 
         <div className={classes.incopleteProfile}>
+          <button onClick={logout}>Logout</button>
           Your Profile is Incomplete.
           <span onClick={() => navigate("profile")}>Complete now</span>
           <button onClick={verify}>Verify email</button>
