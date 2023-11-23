@@ -44,7 +44,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className={classes.mainDiv}>
       <div className={classes.Login}>
         Login
         <div>
@@ -59,8 +59,10 @@ const Login = () => {
         <div>Forgot password</div>
       </div>
       <div className={classes.haveAnAccount}>
-        Have an account?
-        <span>Login</span>
+        Have not account?
+        <span onClick={() => navigate("/")} className={classes.span}>
+          Sign
+        </span>
       </div>
     </div>
   );

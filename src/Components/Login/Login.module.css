@@ -1,6 +1,9 @@
+.mainDiv {
+  margin-top: 10%;
+}
 .Login {
   margin: auto;
-  width: 30%;
+  width: 20%;
 
   padding: 10px;
   -webkit-box-shadow: -1px 0px 61px -10px rgba(0, 0, 0, 0.61);
@@ -11,7 +14,6 @@
   margin: 10px;
 }
 .Login button {
-  width: -webkit-fill-available;
   border-radius: 50px;
 }
 .Login input {
@@ -19,9 +21,13 @@
   background-color: black;
   color: white;
 }
+.span {
+  text-decoration: underline;
+  cursor: pointer;
+}
 .haveAnAccount {
   margin: auto;
-  width: 30%;
+  width: 20%;
   padding: 10px;
   -webkit-box-shadow: -1px 0px 61px -10px rgba(0, 0, 0, 0.61);
   -moz-box-shadow: -1px 0px 61px -10px rgba(0, 0, 0, 0.61);

@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px;
+}
+.header div {
+  font-style: italic;
+}
+.incopleteProfile {
+  background-color: bisque;
+  border-radius: 10px;
+}
+.incopleteProfile span {
+  text-decoration: underline;
+  color: blue;
+  cursor: pointer;
+}
+.contactDetail {
+  display: flex;
+  justify-content: space-around;
+}
+.updateDetail {
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+}

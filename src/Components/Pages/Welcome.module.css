@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+.header div {
+  font-style: italic;
+}
+.incopleteProfile {
+  background-color: bisque;
+  border-radius: 10px;
+}
+.incopleteProfile span {
+  text-decoration: underline;
+  cursor: pointer;
+  color: blue;
+}
