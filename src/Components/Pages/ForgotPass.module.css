@@ -1,0 +1,19 @@
+.mainDiv {
+  width: auto;
+  margin-top: 15%;
+  padding: 10px;
+  border: 1px solid;
+  margin-right: 25%;
+  margin-left: 25%;
+  background-color: black;
+  color: white;
+}
+
+.mainDiv div {
+  padding: 10px;
+}
+.span {
+  text-decoration: underline;
+  color: blue;
+  cursor: pointer;
+}

@@ -1,13 +1,14 @@
 import { useContext, useRef } from "react";
 import classes from "./Login.module.css";
 import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Context from "../../Context/Context";
 const Login = () => {
   const ctx = useContext(Context);
   const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
+  const params = useParams();
 
   const Login = () => {
     const email = emailRef.current.value;
@@ -60,7 +61,9 @@ const Login = () => {
         <div>
           <Button onClick={Login}>Login</Button>
         </div>
-        <div>Forgot password</div>
+        <div onClick={() => navigate("forgotpass")} className={classes.forgot}>
+          Forgot password
+        </div>
       </div>
       <div className={classes.haveAnAccount}>
         Have not account?
