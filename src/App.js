@@ -4,8 +4,12 @@ import Login from "./Components/Login/Login";
 import Welcome from "./Components/Pages/Welcome";
 import SignUp from "./Components/SignUp/SignUp";
 import Profile from "./Components/Pages/Profile";
+import { useContext } from "react";
+import context from "react-bootstrap/esm/AccordionContext";
 
 function App() {
+  const ctx = useContext(context);
+
   return (
     <div className="App">
       <Routes>

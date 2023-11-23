@@ -1,8 +1,10 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import classes from "./Login.module.css";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import Context from "../../Context/Context";
 const Login = () => {
+  const ctx = useContext(Context);
   const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -33,6 +35,8 @@ const Login = () => {
       if (res.ok) {
         return res.json().then((data) => {
           alert("You have succesfully Login");
+          ctx.addToken(data.idToken);
+          localStorage.setItem("token", data.idToken);
           navigate("/welcome");
         });
       } else {

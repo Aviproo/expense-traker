@@ -1,8 +1,60 @@
+import { useContext, useRef } from "react";
 import classes from "./Profile.module.css";
+import Context from "../../Context/Context";
 const Profile = () => {
-  const updateHandler = () => {
-    // https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
+  const ctx = useContext(Context);
+  const nameRef = useRef();
+  const photoUrlRef = useRef();
+
+  const fetchFirebase = async () => {
+    console.log(localStorage.getItem("token"));
+
+    const respose = await fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCvzryAZ4dVWRP2PJ-eM4EE78m3NrDF5F0",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          idToken: localStorage.getItem("token"),
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const resData = await respose.json();
   };
+  fetchFirebase();
+
+  const updateHandler = () => {
+    const name = nameRef.current.value;
+    const photo = photoUrlRef.current.value;
+
+    const url =
+      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCvzryAZ4dVWRP2PJ-eM4EE78m3NrDF5F0";
+
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        idToken: ctx.token,
+        displayName: name,
+        photoUrl: photo,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json().then((data) => {
+          alert("Update Successfully");
+        });
+      } else {
+        return res.json().then((data) => {
+          alert(data.error.message);
+        });
+      }
+    });
+  };
+
   return (
     <div>
       <div className={classes.header}>
@@ -20,10 +72,10 @@ const Profile = () => {
         </div>
         <div className={classes.updateDetail}>
           <div>
-            Full name: <input />
+            Full name: <input ref={nameRef} />
           </div>
           <div>
-            Profile photo url: <input />
+            Profile photo url: <input ref={photoUrlRef} />
           </div>
         </div>
         <button onClick={updateHandler}>Update</button>
