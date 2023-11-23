@@ -1,7 +1,15 @@
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import classes from "./Welcome.module.css";
+import { useContext, useRef } from "react";
+import Context from "../../Context/Context";
+import { Button } from "react-bootstrap";
+
 const Welcome = () => {
+  const ctx = useContext(Context);
   const navigate = useNavigate();
+  const moneyRef = useRef();
+  const descriptionRef = useRef();
+  const catagoryRef = useRef();
 
   const verify = () => {
     const url =
@@ -32,6 +40,25 @@ const Welcome = () => {
     localStorage.removeItem("token");
     navigate("/login");
   };
+
+  const addHandler = () => {
+    const money = moneyRef.current.value;
+    const description = descriptionRef.current.value;
+    const catagory = catagoryRef.current.value;
+    const expenseData = {
+      money: money,
+      description: description,
+      catagory: catagory,
+    };
+  };
+
+  const showExpense = (
+    <div>
+      {ctx.expense.map((item) => {
+        return <div>{item}</div>;
+      })}
+    </div>
+  );
   return (
     <div>
       <div className={classes.header}>
@@ -45,6 +72,26 @@ const Welcome = () => {
         </div>
       </div>
       <hr />
+      <div className={classes.expenseDiv}>
+        <div>
+          Spent Money <input ref={moneyRef} type="number" />
+        </div>
+        <div>
+          Description <input ref={descriptionRef} />
+        </div>
+        <div>
+          Catagory:
+          <select name="cars" id="cars" ref={catagoryRef}>
+            <option value="Food">Food</option>
+            <option value="Petrol">Petrol</option>
+            <option value="Salary">Salary</option>
+            <option value="Recharge">Recharge</option>
+          </select>
+        </div>
+        <Button onClick={addHandler}>Add Expenses</Button>
+      </div>
+      <hr />
+      <div>{showExpense}</div>
     </div>
   );
 };
