@@ -38,6 +38,7 @@ const Login = () => {
           alert("You have succesfully Login");
           ctx.addToken(data.idToken);
           localStorage.setItem("token", data.idToken);
+          localStorage.setItem("email", data.email);
           navigate("/welcome");
         });
       } else {

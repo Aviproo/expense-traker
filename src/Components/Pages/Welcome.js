@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import classes from "./Welcome.module.css";
 import { useContext, useRef } from "react";
 import Context from "../../Context/Context";
 import { Button } from "react-bootstrap";
+import axios from "axios";
 
 const Welcome = () => {
   const ctx = useContext(Context);
@@ -46,19 +47,22 @@ const Welcome = () => {
     const description = descriptionRef.current.value;
     const catagory = catagoryRef.current.value;
     const expenseData = {
+      id: Math.random().toString(),
       money: money,
       description: description,
       catagory: catagory,
     };
+
+    axios
+      .post(
+        "https://expensetraker-e2a07-default-rtdb.firebaseio.com/expense.json",
+        JSON.stringify(expenseData)
+      )
+      .then((res) => console.log(res));
+    ctx.addExpense(expenseData);
+    console.log(ctx);
   };
 
-  const showExpense = (
-    <div>
-      {ctx.expense.map((item) => {
-        return <div>{item}</div>;
-      })}
-    </div>
-  );
   return (
     <div>
       <div className={classes.header}>
@@ -91,7 +95,15 @@ const Welcome = () => {
         <Button onClick={addHandler}>Add Expenses</Button>
       </div>
       <hr />
-      <div>{showExpense}</div>
+      <div>
+        {ctx.expense.map((i) => (
+          <div key={i.id} className={classes.expenseDiv}>
+            <div>{i.money}</div>
+            <div>{i.description}</div>
+            <div>{i.catagory}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
