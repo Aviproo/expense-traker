@@ -1,11 +1,25 @@
 import { json, useNavigate } from "react-router-dom";
 import classes from "./Welcome.module.css";
-import { useContext, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import Context from "../../Context/Context";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 
 const Welcome = () => {
+  useEffect(() => {
+    const allData = async () => {
+      try {
+        const response = await axios.get(
+          "https://ecommerce-contact-fe22c-default-rtdb.firebaseio.com/expenses.json"
+        );
+        const result = Object.values(response.data);
+        ctx.addExpense(result);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    allData();
+  }, []);
   const ctx = useContext(Context);
   const navigate = useNavigate();
   const moneyRef = useRef();
@@ -42,7 +56,7 @@ const Welcome = () => {
     navigate("/login");
   };
 
-  const addHandler = () => {
+  const addHandler = async () => {
     const money = moneyRef.current.value;
     const description = descriptionRef.current.value;
     const catagory = catagoryRef.current.value;
@@ -53,14 +67,33 @@ const Welcome = () => {
       catagory: catagory,
     };
 
-    axios
-      .post(
-        "https://expensetraker-e2a07-default-rtdb.firebaseio.com/expense.json",
-        JSON.stringify(expenseData)
-      )
-      .then((res) => console.log(res));
-    ctx.addExpense(expenseData);
-    console.log(ctx);
+    try {
+      const response = await axios.post(
+        "https://ecommerce-contact-fe22c-default-rtdb.firebaseio.com/expenses.json",
+        expenseData
+      );
+    } catch (err) {
+      console.log(err);
+    }
+
+    try {
+      const response = await axios.get(
+        "https://ecommerce-contact-fe22c-default-rtdb.firebaseio.com/expenses.json"
+      );
+      console.log(response);
+      const result = Object.values(response.data);
+      ctx.addExpense(result);
+      console.log(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const editHandler = (e) => {
+    console.log(e.currentTarget.id);
+  };
+  const deleteHandeler = (e) => {
+    console.log(e.currentTarget.id);
   };
 
   return (
@@ -96,13 +129,21 @@ const Welcome = () => {
       </div>
       <hr />
       <div>
-        {ctx.expense.map((i) => (
-          <div key={i.id} className={classes.expenseDiv}>
-            <div>{i.money}</div>
-            <div>{i.description}</div>
-            <div>{i.catagory}</div>
-          </div>
-        ))}
+        {ctx.expense.map((i) => {
+          return (
+            <div key={i.id} className={classes.expenseDiv}>
+              <div>{i.money}</div>
+              <div>{i.description}</div>
+              <div>{i.catagory}</div>
+              <Button id={i.id} onClick={editHandler}>
+                Edit
+              </Button>
+              <Button id={i.id} onClick={deleteHandeler}>
+                Delete
+              </Button>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

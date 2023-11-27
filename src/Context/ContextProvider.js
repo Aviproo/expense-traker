@@ -10,13 +10,18 @@ const ContextProvider = (props) => {
   };
 
   const addExpense = (item) => {
-    setExpense([...expense, item]);
+    setExpense(item);
   };
+
+  const editExpense = (id) => {};
+  const deleteExpense = (id) => {};
   const data = {
     token: token,
     addToken: addToken,
     expense: expense,
     addExpense: addExpense,
+    editExpense: editExpense,
+    deleteExpense: deleteExpense,
   };
 
   return <Context.Provider value={data}>{props.children}</Context.Provider>;
