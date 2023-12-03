@@ -4,27 +4,32 @@ import { useContext, useEffect, useRef } from "react";
 import Context from "../../Context/Context";
 import { Button } from "react-bootstrap";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { expenseActions } from "../../store/ExpenseReducer";
 
 const Welcome = () => {
+  const expense = useSelector((state) => state.expense.expenses);
+  const dispatch = useDispatch();
+  const ctx = useContext(Context);
+  const navigate = useNavigate();
+  const moneyRef = useRef();
+  const descriptionRef = useRef();
+  const catagoryRef = useRef();
+
   useEffect(() => {
     const allData = async () => {
       try {
         const response = await axios.get(
           "https://ecommerce-contact-fe22c-default-rtdb.firebaseio.com/expenses.json"
         );
-        const result = Object.values(response.data);
-        ctx.addExpense(result);
+        const result = await Object.values(response.data);
+        dispatch(expenseActions.addExpenses(result));
       } catch (err) {
         console.log(err);
       }
     };
     allData();
   }, []);
-  const ctx = useContext(Context);
-  const navigate = useNavigate();
-  const moneyRef = useRef();
-  const descriptionRef = useRef();
-  const catagoryRef = useRef();
 
   const verify = () => {
     const url =
@@ -80,10 +85,9 @@ const Welcome = () => {
       const response = await axios.get(
         "https://ecommerce-contact-fe22c-default-rtdb.firebaseio.com/expenses.json"
       );
-      console.log(response);
-      const result = Object.values(response.data);
+      const result = await Object.values(response.data);
+      dispatch(expenseActions.addExpenses(result));
       ctx.addExpense(result);
-      console.log(response.data);
     } catch (err) {
       console.log(err);
     }
@@ -92,6 +96,7 @@ const Welcome = () => {
   const editHandler = (e) => {
     console.log(e.currentTarget.id);
   };
+
   const deleteHandeler = (e) => {
     console.log(e.currentTarget.id);
   };
@@ -129,7 +134,7 @@ const Welcome = () => {
       </div>
       <hr />
       <div>
-        {ctx.expense.map((i) => {
+        {expense.map((i) => {
           return (
             <div key={i.id} className={classes.expenseDiv}>
               <div>{i.money}</div>

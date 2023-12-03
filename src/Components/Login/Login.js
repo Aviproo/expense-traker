@@ -3,12 +3,15 @@ import classes from "./Login.module.css";
 import { Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import Context from "../../Context/Context";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../../store/AuthReducer";
 const Login = () => {
   const ctx = useContext(Context);
   const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
-  const params = useParams();
+  const show = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const Login = () => {
     const email = emailRef.current.value;
@@ -16,13 +19,7 @@ const Login = () => {
 
     let url =
       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCvzryAZ4dVWRP2PJ-eM4EE78m3NrDF5F0";
-    // if (isLogIn) {
-    //   url =
-    //     "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCvzryAZ4dVWRP2PJ-eM4EE78m3NrDF5F0";
-    // } else {
-    //   url =
-    //     "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCvzryAZ4dVWRP2PJ-eM4EE78m3NrDF5F0";
-    // }
+
     fetch(url, {
       method: "POST",
       body: JSON.stringify({
@@ -36,6 +33,8 @@ const Login = () => {
       if (res.ok) {
         return res.json().then((data) => {
           alert("You have succesfully Login");
+          dispatch(authActions.addToken("hello"));
+          console.log(show);
           ctx.addToken(data.idToken);
           localStorage.setItem("token", data.idToken);
           localStorage.setItem("email", data.email);
