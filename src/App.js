@@ -4,16 +4,19 @@ import Login from "./Components/Login/Login";
 import Welcome from "./Components/Pages/Welcome";
 import SignUp from "./Components/SignUp/SignUp";
 import Profile from "./Components/Pages/Profile";
-import { useContext } from "react";
-import context from "react-bootstrap/esm/AccordionContext";
 import ForgotPass from "./Components/Pages/ForgotPass";
 import Expenses from "./Components/Pages/Expenses";
+import { useSelector } from "react-redux";
 
 function App() {
-  const ctx = useContext(context);
+  const background = useSelector((state) => state.expense.background);
+  const color = useSelector((state) => state.expense.color);
 
   return (
-    <div className="App">
+    <div
+      className="App"
+      style={{ background: `${background}`, color: `${color}` }}
+    >
       <Routes>
         <Route path="*" element={<SignUp />} />
         <Route path="welcome" element={<Welcome />} />

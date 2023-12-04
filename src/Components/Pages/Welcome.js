@@ -1,7 +1,7 @@
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import classes from "./Welcome.module.css";
-import { useContext, useEffect, useRef } from "react";
-import Context from "../../Context/Context";
+import { useEffect, useRef } from "react";
+
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,11 +10,12 @@ import { expenseActions } from "../../store/ExpenseReducer";
 const Welcome = () => {
   const expense = useSelector((state) => state.expense.expenses);
   const dispatch = useDispatch();
-  const ctx = useContext(Context);
   const navigate = useNavigate();
   const moneyRef = useRef();
   const descriptionRef = useRef();
   const catagoryRef = useRef();
+  let totalExpense = useSelector((state) => state.expense.totalExpense);
+  let button = useSelector((state) => state.expense.button);
 
   useEffect(() => {
     const allData = async () => {
@@ -87,7 +88,6 @@ const Welcome = () => {
       );
       const result = await Object.values(response.data);
       dispatch(expenseActions.addExpenses(result));
-      ctx.addExpense(result);
     } catch (err) {
       console.log(err);
     }
@@ -101,6 +101,9 @@ const Welcome = () => {
     console.log(e.currentTarget.id);
   };
 
+  const themeChange = () => {
+    dispatch(expenseActions.premium());
+  };
   return (
     <div>
       <div className={classes.header}>
@@ -135,6 +138,7 @@ const Welcome = () => {
       <hr />
       <div>
         {expense.map((i) => {
+          totalExpense += +i.money;
           return (
             <div key={i.id} className={classes.expenseDiv}>
               <div>{i.money}</div>
@@ -149,6 +153,19 @@ const Welcome = () => {
             </div>
           );
         })}
+        <h2>
+          Total Expenses:₹{totalExpense}
+          {totalExpense < 10000 ? (
+            <Button style={{ marginLeft: "100px" }} disabled>
+              Activate Premium
+            </Button>
+          ) : (
+            <Button style={{ marginLeft: "100px" }} onClick={themeChange}>
+              Activate Premium
+            </Button>
+          )}
+          {button}
+        </h2>
       </div>
     </div>
   );

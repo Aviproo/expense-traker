@@ -1,12 +1,10 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import classes from "./Login.module.css";
 import { Button } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
-import Context from "../../Context/Context";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/AuthReducer";
 const Login = () => {
-  const ctx = useContext(Context);
   const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -33,9 +31,8 @@ const Login = () => {
       if (res.ok) {
         return res.json().then((data) => {
           alert("You have succesfully Login");
-          dispatch(authActions.addToken("hello"));
+          dispatch(authActions.addToken(data.idToken));
           console.log(show);
-          ctx.addToken(data.idToken);
           localStorage.setItem("token", data.idToken);
           localStorage.setItem("email", data.email);
           navigate("/welcome");

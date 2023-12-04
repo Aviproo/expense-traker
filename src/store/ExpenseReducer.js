@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Button } from "react-bootstrap";
 
 const initialExpenseState = {
   expenses: [],
-  first: "Avinash",
-  last: "kumar",
+  totalExpense: 0,
+  background: "white",
+  color: null,
+  button: null,
 };
 
 const expense = createSlice({
@@ -12,6 +15,13 @@ const expense = createSlice({
   reducers: {
     addExpenses(state, action) {
       state.expenses = action.payload;
+    },
+    premium(state) {
+      state.background = "black";
+      state.color = "white";
+      state.button = (
+        <Button style={{ marginLeft: "100px" }}>Download file</Button>
+      );
     },
   },
 });
