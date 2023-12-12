@@ -1,36 +1,52 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./Welcome.module.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Button } from "react-bootstrap";
-import axios from "axios";
+
 import { useDispatch, useSelector } from "react-redux";
 import { expenseActions } from "../../store/ExpenseReducer";
+import { db } from "./db";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+} from "firebase/firestore";
 
 const Welcome = () => {
-  const expense = useSelector((state) => state.expense.expenses);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const moneyRef = useRef();
-  const descriptionRef = useRef();
-  const catagoryRef = useRef();
+  let moneyRef = useRef();
+  let descriptionRef = useRef();
+  let catagoryRef = useRef();
   let totalExpense = useSelector((state) => state.expense.totalExpense);
   let button = useSelector((state) => state.expense.button);
+  let value = collection(db, "expenses");
 
+  const [val, setVal] = useState([]);
   useEffect(() => {
-    const allData = async () => {
-      try {
-        const response = await axios.get(
-          "https://ecommerce-contact-fe22c-default-rtdb.firebaseio.com/expenses.json"
-        );
-        const result = await Object.values(response.data);
-        dispatch(expenseActions.addExpenses(result));
-      } catch (err) {
-        console.log(err);
-      }
+    const getData = async () => {
+      const dbValue = await getDocs(value);
+      setVal(dbValue.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
-    allData();
-  }, []);
+    getData();
+
+    // const allData = async () => {
+    //   try {
+    //     const response = await axios.get(
+    //       "https://ecom-3c668-default-rtdb.firebaseio.com/expenses.json"
+    //     );
+    //     const result = await Object.values(response.data);
+    //     dispatch(expenseActions.addExpenses(result));
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // };
+    // allData();
+  });
 
   const verify = () => {
     const url =
@@ -73,32 +89,40 @@ const Welcome = () => {
       catagory: catagory,
     };
 
-    try {
-      const response = await axios.post(
-        "https://ecommerce-contact-fe22c-default-rtdb.firebaseio.com/expenses.json",
-        expenseData
-      );
-    } catch (err) {
-      console.log(err);
-    }
+    await addDoc(value, expenseData);
 
-    try {
-      const response = await axios.get(
-        "https://ecommerce-contact-fe22c-default-rtdb.firebaseio.com/expenses.json"
-      );
-      const result = await Object.values(response.data);
-      dispatch(expenseActions.addExpenses(result));
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   const response = await axios.post(
+    //     "https://ecom-3c668-default-rtdb.firebaseio.com/expenses.json",
+    //     expenseData
+    //   );
+    // } catch (err) {
+    //   console.log(err);
+    // }
+
+    // try {
+    //   const response = await axios.get(
+    //     "https://ecom-3c668-default-rtdb.firebaseio.com/expenses.json"
+    //   );
+    //   const result = await Object.values(response.data);
+    //   dispatch(expenseActions.addExpenses(result));
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
-  const editHandler = (e) => {
-    console.log(e.currentTarget.id);
+  const editHandler = async (id, money, description, catagory) => {
+    const deleteVal = doc(db, "expenses", id);
+    await deleteDoc(deleteVal);
+    console.log(id, money, description, catagory);
+    moneyRef.current.value = money;
+    descriptionRef.current.value = description;
+    catagoryRef.current.value = catagory;
   };
 
-  const deleteHandeler = (e) => {
-    console.log(e.currentTarget.id);
+  const deleteHandeler = async (id) => {
+    const deleteVal = doc(db, "expenses", id);
+    await deleteDoc(deleteVal);
   };
 
   const themeChange = () => {
@@ -137,17 +161,22 @@ const Welcome = () => {
       </div>
       <hr />
       <div>
-        {expense.map((i) => {
+        {val.map((i) => {
           totalExpense += +i.money;
           return (
             <div key={i.id} className={classes.expenseDiv}>
               <div>{i.money}</div>
               <div>{i.description}</div>
               <div>{i.catagory}</div>
-              <Button id={i.id} onClick={editHandler}>
+              <Button
+                id={i.id}
+                onClick={() =>
+                  editHandler(i.id, i.money, i.description, i.catagory)
+                }
+              >
                 Edit
               </Button>
-              <Button id={i.id} onClick={deleteHandeler}>
+              <Button id={i.id} onClick={() => deleteHandeler(i.id)}>
                 Delete
               </Button>
             </div>
