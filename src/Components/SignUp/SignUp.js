@@ -14,13 +14,7 @@ const SignUp = () => {
     const confirmPassword = passwordRef.current.value;
     let url =
       "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCvzryAZ4dVWRP2PJ-eM4EE78m3NrDF5F0";
-    // if (isLogIn) {
-    //   url =
-    //     "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCvzryAZ4dVWRP2PJ-eM4EE78m3NrDF5F0";
-    // } else {
-    //   url =
-    //     "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCvzryAZ4dVWRP2PJ-eM4EE78m3NrDF5F0";
-    // }
+
     fetch(url, {
       method: "POST",
       body: JSON.stringify({
@@ -59,7 +53,7 @@ const SignUp = () => {
           <input placeholder="Confirm Password" ref={confirmpasswordRef} />
         </div>
         <div>
-          <Button onClick={signUp}>SignUp</Button>
+          <button onClick={signUp}>SignUp</button>
         </div>
       </div>
       <div className={classes.haveAnAccount}>

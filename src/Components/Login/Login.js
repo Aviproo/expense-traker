@@ -48,15 +48,16 @@ const Login = () => {
   return (
     <div className={classes.mainDiv}>
       <div className={classes.Login}>
-        Login
+        <div>Login</div>
         <div>
           <input placeholder="Email" ref={emailRef} />
         </div>
         <div>
           <input placeholder="Password" ref={passwordRef} />
         </div>
+
         <div>
-          <Button onClick={Login}>Login</Button>
+          <button onClick={Login}>Login</button>
         </div>
         <div onClick={() => navigate("forgotpass")} className={classes.forgot}>
           Forgot password

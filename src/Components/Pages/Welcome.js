@@ -1,9 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import classes from "./Welcome.module.css";
 import { useEffect, useRef, useState } from "react";
-
 import { Button } from "react-bootstrap";
-
 import { useDispatch, useSelector } from "react-redux";
 import { expenseActions } from "../../store/ExpenseReducer";
 import { db } from "./db";
@@ -33,19 +31,6 @@ const Welcome = () => {
       setVal(dbValue.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
     getData();
-
-    // const allData = async () => {
-    //   try {
-    //     const response = await axios.get(
-    //       "https://ecom-3c668-default-rtdb.firebaseio.com/expenses.json"
-    //     );
-    //     const result = await Object.values(response.data);
-    //     dispatch(expenseActions.addExpenses(result));
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
-    // allData();
   });
 
   const verify = () => {
@@ -90,25 +75,6 @@ const Welcome = () => {
     };
 
     await addDoc(value, expenseData);
-
-    // try {
-    //   const response = await axios.post(
-    //     "https://ecom-3c668-default-rtdb.firebaseio.com/expenses.json",
-    //     expenseData
-    //   );
-    // } catch (err) {
-    //   console.log(err);
-    // }
-
-    // try {
-    //   const response = await axios.get(
-    //     "https://ecom-3c668-default-rtdb.firebaseio.com/expenses.json"
-    //   );
-    //   const result = await Object.values(response.data);
-    //   dispatch(expenseActions.addExpenses(result));
-    // } catch (err) {
-    //   console.log(err);
-    // }
   };
 
   const editHandler = async (id, money, description, catagory) => {

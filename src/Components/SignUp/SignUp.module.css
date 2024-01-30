@@ -16,6 +16,7 @@
   border-radius: 50px;
 }
 .signUp input {
+  width: 100%;
   border-radius: 50px;
 }
 .span {
@@ -29,4 +30,15 @@
   -webkit-box-shadow: -1px 0px 61px -10px rgba(0, 0, 0, 0.61);
   -moz-box-shadow: -1px 0px 61px -10px rgba(0, 0, 0, 0.61);
   box-shadow: -1px 0px 61px -10px rgba(0, 0, 0, 0.61);
+}
+@media only screen and (max-width: 600px) {
+  .mainDiv {
+    font-size: 10px;
+  }
+  .signUp {
+    width: 50%;
+  }
+  .haveAnAccount {
+    width: 50%;
+  }
 }
